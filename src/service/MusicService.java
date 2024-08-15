@@ -13,4 +13,7 @@ public class MusicService {
     public void addUser(User user) throws SQLException {
         userDAO.addUser(user);
     }
+    public boolean validateUser(String name, String password) throws SQLException{
+        return userDAO.validateUser(name, password);
+    }
 }

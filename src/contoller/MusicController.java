@@ -22,7 +22,7 @@ public class MusicController {
                      register();
                     break;
                 case 2 :
-                    // login
+                    login();
                     break;
                 case 3 :
                     System.exit(0);
@@ -30,7 +30,7 @@ public class MusicController {
             }
         }
     }
-    public void register(){
+    private void register(){
         System.out.println("Enter user name");
         String name = scanner.nextLine();
         System.out.println("Enter password");
@@ -46,6 +46,22 @@ public class MusicController {
             throw new RuntimeException(e);
         }
 
+    }
+    private void login(){
+        System.out.println("Enter user name");
+        String name = scanner.nextLine();
+        System.out.println("Enter password");
+        String password = scanner.nextLine();
+        // validate user
+        try {
+            if (musicService.validateUser(name,password)){
+                System.out.println("Logged in .......");
+            }else {
+                System.out.println("Invalid credentials");
+            };
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
