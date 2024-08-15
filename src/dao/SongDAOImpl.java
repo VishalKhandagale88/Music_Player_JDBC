@@ -13,9 +13,11 @@ import java.util.List;
 public class SongDAOImpl implements SongDAO {
     @Override
     public List<Song> getAllSongs() throws SQLException {
-        String sql = "SELECT * FROM song";
+        String sql = "SELECT * FROM songs";
         List<Song> allSongs = new ArrayList<>();
-        try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql); ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 allSongs.add(new Song(resultSet.getInt("song_id"), resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("path")));
             }
