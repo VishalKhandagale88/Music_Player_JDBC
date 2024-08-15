@@ -1,9 +1,12 @@
 package contoller;
 
+import model.Song;
 import model.User;
 import service.MusicService;
+import util.AudioPlayer;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MusicController {
@@ -14,7 +17,9 @@ public class MusicController {
         while (true){
             System.out.println("1 . Register");
             System.out.println("2 . Login");
-            System.out.println("3 . exit");
+            System.out.println("3 . View all songs");
+            System.out.println("4 . Play song");
+            System.out.println("5 . exit");
             int choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice){
@@ -25,6 +30,11 @@ public class MusicController {
                     login();
                     break;
                 case 3 :
+                    viewALlSongs();
+                case 4 :
+                    playSong();
+                    break;
+                case 5 :
                     System.exit(0);
                     break;
             }
@@ -59,6 +69,35 @@ public class MusicController {
             }else {
                 System.out.println("Invalid credentials");
             };
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void viewALlSongs(){
+        try {
+            List<Song> allSongs = musicService.getAllSongs();
+            allSongs.forEach(System.out::println);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private  void playSong(){
+        viewALlSongs();
+
+        System.out.println("Enter song id from above songs list");
+        int songId = scanner.nextInt();
+        scanner.nextLine();
+        try {
+            Song selectedSong = musicService.getAllSongs().stream().
+                    filter(song -> song.getSongId() == songId).
+                    findFirst().orElse(null);
+            if (selectedSong != null){
+                System.out.println("Playing audio");
+                AudioPlayer.playAudio(selectedSong.getPath());
+            }else {
+                System.out.println("Song not found");
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
