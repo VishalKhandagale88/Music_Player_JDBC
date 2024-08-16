@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MusicService {
 
-    private UserDAO userDAO = new UserDAOImpl();
+    private UserDAOImpl userDAO = new UserDAOImpl();
     private SongDAOImpl songDAO = new SongDAOImpl();
 
     public void addUser(User user) throws SQLException {
