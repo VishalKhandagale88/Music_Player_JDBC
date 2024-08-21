@@ -11,7 +11,6 @@ public class PlayListDAOImpl implements PlayListDAO {
     @Override
     public void createPlayList(Playlist playlist) throws SQLException {
         String sql = "INSERT INTO playlists (name, user_id) VALUES (?,?)";
-
         Connection connection = DatabaseConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,playlist.getName());
