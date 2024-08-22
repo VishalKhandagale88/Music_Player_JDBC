@@ -31,4 +31,20 @@ public class UserDAOImpl implements UserDAO {
             return resultSet.next();
         }
     }
+
+    @Override
+    public User getUserByName(String name) throws SQLException {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try (
+                Connection connection = DatabaseConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ){
+            preparedStatement.setString(1,name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return new User(resultSet.getInt("user_id"),resultSet.getString("userName"),resultSet.getString("password"),resultSet.getString("email"));
+            }
+        }
+        return null;
+    }
 }
