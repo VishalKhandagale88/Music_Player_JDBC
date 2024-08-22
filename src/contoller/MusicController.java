@@ -1,5 +1,6 @@
 package contoller;
 
+import model.Playlist;
 import model.Song;
 import model.User;
 import service.MusicService;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 public class MusicController {
     private MusicService musicService = new MusicService();
     private Scanner scanner = new Scanner(System.in);
-
+    private User currentUser;
     public void start(){
         while (true){
             System.out.println("1 . Register");
@@ -66,9 +67,38 @@ public class MusicController {
         try {
             if (musicService.validateUser(name,password)){
                 System.out.println("Logged in .......");
+                // get user id
+                currentUser = musicService.getUserByName(name);
+                userMenu();
             }else {
                 System.out.println("Invalid credentials");
             };
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void userMenu(){
+        while (true){
+            System.out.println("1. create playlist");
+            System.out.println("Select above options");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice){
+                case 1:
+                    createPlaylist();
+                    break;
+            }
+        }
+    }
+
+    private void createPlaylist() {
+        System.out.println("Enter playlist name");
+        String playlistName = scanner.nextLine();
+        System.out.println();
+        Playlist userPlaylist = new Playlist(0,playlistName,currentUser);
+        try {
+            musicService.createPlaylist(userPlaylist);
+            System.out.println("Playlist created");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
