@@ -16,6 +16,12 @@ public class Playlist {
         this.songs = songs;
     }
 
+    public Playlist(int playlistId, String name, User user) {
+        this.playlistId = playlistId;
+        this.name = name;
+        this.user = user;
+    }
+
     public int getPlaylistId() {
         return playlistId;
     }
